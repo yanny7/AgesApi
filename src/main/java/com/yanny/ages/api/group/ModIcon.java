@@ -9,6 +9,7 @@ import net.minecraftforge.registries.ObjectHolder;
 
 import static com.yanny.ages.api.Reference.*;
 
+@SuppressWarnings("WeakerAccess")
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 @ObjectHolder(MODID)
 public class ModIcon {
