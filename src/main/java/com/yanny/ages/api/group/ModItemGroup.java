@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import javax.annotation.Nonnull;
 
 public class ModItemGroup extends ItemGroup {
-    public static final ItemGroup TOOMANYORES = new ModItemGroup();
+    public static final ItemGroup AGES = new ModItemGroup();
 
     ModItemGroup() {
         super(Reference.MODID);
