@@ -63,9 +63,14 @@ public class GenericFluidEntityHandler extends WorldSavedData {
     @Override
     public void read(@Nonnull CompoundNBT compoundNBT) {
         ListNBT capabilityList = compoundNBT.getList("capabilities", compoundNBT.getInt("listType"));
+        int version = compoundNBT.getInt("version");
 
         ENTITIES.clear();
         CAPABILITIES.clear();
+
+        if (setup.version != version) {
+            return; // dismiss old setup
+        }
 
         capabilityList.forEach(tag -> {
             if (tag instanceof CompoundNBT) {
@@ -121,6 +126,7 @@ public class GenericFluidEntityHandler extends WorldSavedData {
             list.add(compound);
         });
 
+        compoundNBT.putInt("version", setup.version);
         compoundNBT.put("capabilities", list);
         compoundNBT.putInt("listType", list.getTagType());
         return compoundNBT;
@@ -352,11 +358,13 @@ public class GenericFluidEntityHandler extends WorldSavedData {
         private final int entityCapacity;
         private final String networkId;
         private final Set<Direction> directions;
+        private final int version;
 
-        public Setup(int capacity, String id, Set<Direction> directions) {
+        public Setup(int capacity, String id, Set<Direction> directions, int version) {
             this.entityCapacity = capacity;
             this.networkId = id;
             this.directions = directions;
+            this.version = version;
         }
 
         public abstract boolean checkConnection(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull Direction posFacing, @Nonnull BlockPos pos2);
