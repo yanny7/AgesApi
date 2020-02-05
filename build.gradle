@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 //apply plugin: 'eclipse'
 //apply plugin: 'maven-publish'
 
-version = '${game_version}'
+version = '${api_version}'
 group = 'com.yanny.ages.api' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'ages-api'
 
