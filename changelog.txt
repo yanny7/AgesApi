@@ -1,3 +1,5 @@
+- added generic tags
+- added api for manual
 v1.0.1
 - added versions to GenericFluidEntityHandler
 v1.0.0
