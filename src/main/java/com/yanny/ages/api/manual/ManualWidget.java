@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -60,7 +61,7 @@ public class ManualWidget extends Widget implements IManual {
         JsonObject object;
         IResourceManager manager = mc.getResourceManager();
 
-        try (InputStreamReader inputstream = new InputStreamReader(manager.getResource(resource).getInputStream()); Reader reader = new BufferedReader(inputstream)) {
+        try (InputStreamReader inputstream = new InputStreamReader(manager.getResource(resource).getInputStream(), StandardCharsets.UTF_8); Reader reader = new BufferedReader(inputstream)) {
             object = JSONUtils.fromJson(GSON, reader, JsonObject.class);
         } catch (IllegalArgumentException | IOException | JsonParseException jsonparseexception) {
             LOGGER.error("Couldn't parse data file {} - {}", resource, jsonparseexception);
