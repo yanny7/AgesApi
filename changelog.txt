@@ -1,3 +1,6 @@
+v1.0.2
+- replaces shears item with shears tag in loot tables
+- generic tools base classes with additional properties
 - added generic tags
 - added api for manual
 v1.0.1
