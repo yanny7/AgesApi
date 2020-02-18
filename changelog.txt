@@ -1,3 +1,4 @@
+- added player ages handling
 v1.0.2
 - replaces shears item with shears tag in loot tables
 - generic tools base classes with additional properties

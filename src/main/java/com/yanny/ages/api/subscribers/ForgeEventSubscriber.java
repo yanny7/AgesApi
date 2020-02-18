@@ -4,9 +4,14 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.yanny.ages.api.config.Config;
+import com.yanny.ages.api.enums.Age;
+import com.yanny.ages.api.utils.AgeUtils;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraft.world.storage.loot.LootTableManager;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
@@ -63,5 +68,10 @@ public class ForgeEventSubscriber {
                 e.printStackTrace();
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void setupPlayerAge(PlayerEvent.PlayerLoggedInEvent event) {
+        AgeUtils.initPlayerAge(event.getPlayer());
     }
 }
