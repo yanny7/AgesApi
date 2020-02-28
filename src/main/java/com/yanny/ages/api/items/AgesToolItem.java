@@ -100,25 +100,31 @@ public class AgesToolItem extends TieredItem {
             if (displayAttackDamage) {
                 float attackDamage = getAdditionalAttackDamage(stack);
 
-                tooltip.add(new StringTextComponent("Attack damage: ").applyTextStyle(TextFormatting.DARK_GREEN)
-                        .appendSibling(new StringTextComponent(String.format("%.2f", attackDamage))
-                                .applyTextStyle(attackDamage >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+                if (Math.abs(attackDamage) > 0.01) {
+                    tooltip.add(new StringTextComponent("Attack damage: ").applyTextStyle(TextFormatting.DARK_GREEN)
+                            .appendSibling(new StringTextComponent(String.format("%.2f", attackDamage))
+                                    .applyTextStyle(attackDamage >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+                }
             }
 
             if (displayAttackSpeed) {
                 float attackSpeed = getAdditionalAttackSpeed(stack);
 
-                tooltip.add(new StringTextComponent("Attack speed: ").applyTextStyle(TextFormatting.DARK_GREEN)
-                        .appendSibling(new StringTextComponent(String.format("%.2f", attackSpeed))
-                                .applyTextStyle(attackSpeed >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+                if (Math.abs(attackSpeed) > 0.01) {
+                    tooltip.add(new StringTextComponent("Attack speed: ").applyTextStyle(TextFormatting.DARK_GREEN)
+                            .appendSibling(new StringTextComponent(String.format("%.2f", attackSpeed))
+                                    .applyTextStyle(attackSpeed >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+                }
             }
 
             if (displayEfficiency) {
                 float efficiency = getAdditionalEfficiency(stack);
 
-                tooltip.add(new StringTextComponent("Efficiency: ").applyTextStyle(TextFormatting.DARK_GREEN)
-                        .appendSibling(new StringTextComponent(String.format("%.2f", efficiency))
-                                .applyTextStyle(efficiency >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+                if (Math.abs(efficiency) > 0.01) {
+                    tooltip.add(new StringTextComponent("Efficiency: ").applyTextStyle(TextFormatting.DARK_GREEN)
+                            .appendSibling(new StringTextComponent(String.format("%.2f", efficiency))
+                                    .applyTextStyle(efficiency >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+                }
             }
         }
     }
