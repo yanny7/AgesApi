@@ -9,10 +9,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.item.ShovelItem;
+import net.minecraft.item.*;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
@@ -27,7 +24,7 @@ public class AgesHoeItem extends AgesToolItem {
     private static final Map<Block, BlockState> HOE_LOOKUP;
 
     static {
-        HOE_LOOKUP = getPrivateValue(ShovelItem.class, null, 1);
+        HOE_LOOKUP = getPrivateValue(HoeItem.class, null, 1);
     }
 
     public AgesHoeItem(IItemTier tier, float attackSpeedIn, Properties builder) {
