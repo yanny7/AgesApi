@@ -1,3 +1,4 @@
+v1.0.5
 - shears tag moved from ages_api to forge
 v1.0.4
 - does not show useless tool stats
