@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraftforge.common.ToolType;
 
+import javax.annotation.Nonnull;
 import java.util.Set;
 
 import static net.minecraft.block.material.Material.*;
@@ -41,7 +42,7 @@ public class AgesPickaxeItem extends AgesToolItem {
     }
 
     @Override
-    public float getDestroySpeed(ItemStack stack, BlockState state) {
+    public float getDestroySpeed(@Nonnull ItemStack stack, BlockState state) {
         return !EFFECTIVE_MATERIALS.contains(state.getMaterial()) ? super.getDestroySpeed(stack, state) : this.efficiency + getAdditionalEfficiency(stack);
     }
 }

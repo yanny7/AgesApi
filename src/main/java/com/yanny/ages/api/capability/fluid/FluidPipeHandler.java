@@ -146,12 +146,12 @@ public class FluidPipeHandler extends WorldSavedData {
             });
 
             compound.put("pipes", set);
-            compound.putInt("listType", set.getTagType());
+            compound.putInt("listType", set.getId());
             list.add(compound);
         });
 
         compoundNBT.put("capabilities", list);
-        compoundNBT.putInt("listType", list.getTagType());
+        compoundNBT.putInt("listType", list.getId());
         return compoundNBT;
     }
 

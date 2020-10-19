@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import java.util.Set;
 
 import static net.minecraft.block.material.Material.*;
@@ -34,7 +35,7 @@ public class AgesSwordItem extends AgesToolItem {
     }
 
     @Override
-    public float getDestroySpeed(ItemStack stack, BlockState state) {
+    public float getDestroySpeed(@Nonnull ItemStack stack, BlockState state) {
         Block block = state.getBlock();
 
         if (block == Blocks.COBWEB) {
@@ -49,7 +50,7 @@ public class AgesSwordItem extends AgesToolItem {
      * the damage on the stack.
      */
     @Override
-    public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public boolean hitEntity(ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
         stack.damageItem(1, attacker, (livingEntity) -> livingEntity.sendBreakAnimation(EquipmentSlotType.MAINHAND));
         return true;
     }
@@ -58,7 +59,7 @@ public class AgesSwordItem extends AgesToolItem {
      * Called when a Block is destroyed using this Item. Return true to trigger the "Use Item" statistic.
      */
     @Override
-    public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
+    public boolean onBlockDestroyed(@Nonnull ItemStack stack, World worldIn, @Nonnull BlockState state, @Nonnull BlockPos pos, @Nonnull LivingEntity entityLiving) {
         if (state.getBlockHardness(worldIn, pos) != 0.0F) {
             stack.damageItem(2, entityLiving, (livingEntity) -> livingEntity.sendBreakAnimation(EquipmentSlotType.MAINHAND));
         }

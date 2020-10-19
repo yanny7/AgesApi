@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -144,12 +145,18 @@ public class ItemStackUtils {
 
     private static IBakedModel getItemModelWithOverrides(ItemStack stack) {
         Item item = stack.getItem();
-        IBakedModel ibakedmodel = Minecraft.getInstance().getItemRenderer().getItemModelMesher().getItemModel(stack);
-        return !item.hasCustomProperties() ? ibakedmodel : getModelWithOverrides(ibakedmodel, stack);
+        IBakedModel ibakedmodel;
+        if (item == Items.TRIDENT) {
+            ibakedmodel = Minecraft.getInstance().getItemRenderer().getItemModelMesher().getModelManager().getModel(new ModelResourceLocation("minecraft:trident_in_hand#inventory"));
+        } else {
+            ibakedmodel = Minecraft.getInstance().getItemRenderer().getItemModelMesher().getItemModel(stack);
+        }
+
+        return getModelWithOverrides(ibakedmodel, stack);
     }
 
     private static IBakedModel getModelWithOverrides(IBakedModel model, ItemStack stack) {
-        IBakedModel ibakedmodel = model.getOverrides().getModelWithOverrides(model, stack, null, null);
+        IBakedModel ibakedmodel = model.getOverrides().func_239290_a_(model, stack, null, null);
         return ibakedmodel == null ? Minecraft.getInstance().getItemRenderer().getItemModelMesher().getModelManager().getMissingModel() : ibakedmodel;
     }
 
@@ -165,11 +172,11 @@ public class ItemStackUtils {
             modelIn = ForgeHooksClient.handleCameraTransforms(matrixStackIn, modelIn, transformTypeIn, false);
             matrixStackIn.translate(-0.5D, -0.5D, -0.5D);
             if (modelIn.isBuiltInRenderer() || itemStackIn.getItem() == Items.TRIDENT && !flag1) {
-                itemStackIn.getItem().getItemStackTileEntityRenderer().render(itemStackIn, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
+                itemStackIn.getItem().getItemStackTileEntityRenderer().func_239207_a_(itemStackIn, transformTypeIn, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
             } else {
-                RenderType rendertype = RenderTypeLookup.getRenderType(itemStackIn);
+                RenderType rendertype = RenderTypeLookup.func_239219_a_(itemStackIn, true);
                 RenderType rendertype1;
-                if (flag && Objects.equals(rendertype, Atlases.getTranslucentBlockType())) {
+                if (flag && Objects.equals(rendertype, Atlases.getTranslucentCullBlockType())) {
                     rendertype1 = Atlases.getTranslucentCullBlockType();
                 } else {
                     rendertype1 = rendertype;

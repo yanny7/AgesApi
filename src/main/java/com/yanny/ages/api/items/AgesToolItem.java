@@ -1,13 +1,15 @@
 package com.yanny.ages.api.items;
 
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
@@ -20,6 +22,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.util.List;
@@ -27,10 +30,10 @@ import java.util.Set;
 
 public class AgesToolItem extends TieredItem {
     private final Set<Block> effectiveBlocks;
+    private final boolean displayAttackDamage;
+    private final boolean displayAttackSpeed;
+    private final boolean displayEfficiency;
     protected float efficiency;
-    private boolean displayAttackDamage;
-    private boolean displayAttackSpeed;
-    private boolean displayEfficiency;
     protected float attackDamage;
     protected float attackSpeed;
 
@@ -47,8 +50,11 @@ public class AgesToolItem extends TieredItem {
     }
 
     @Override
-    public float getDestroySpeed(ItemStack stack, BlockState state) {
-        if (getToolTypes(stack).stream().anyMatch(state::isToolEffective)) return efficiency + getAdditionalEfficiency(stack);
+    public float getDestroySpeed(@Nonnull ItemStack stack, BlockState state) {
+        if (getToolTypes(stack).stream().anyMatch(state::isToolEffective)) {
+            return efficiency + getAdditionalEfficiency(stack);
+        }
+
         return this.effectiveBlocks.contains(state.getBlock()) ? this.efficiency + getAdditionalEfficiency(stack) : 1.0F;
     }
 
@@ -57,7 +63,7 @@ public class AgesToolItem extends TieredItem {
      * the damage on the stack.
      */
     @Override
-    public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public boolean hitEntity(ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
         stack.damageItem(2, attacker, (livingEntity) -> livingEntity.sendBreakAnimation(EquipmentSlotType.MAINHAND));
         return true;
     }
@@ -66,7 +72,7 @@ public class AgesToolItem extends TieredItem {
      * Called when a Block is destroyed using this Item. Return true to trigger the "Use Item" statistic.
      */
     @Override
-    public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
+    public boolean onBlockDestroyed(@Nonnull ItemStack stack, World worldIn, @Nonnull BlockState state, @Nonnull BlockPos pos, @Nonnull LivingEntity entityLiving) {
         if (!worldIn.isRemote && state.getBlockHardness(worldIn, pos) != 0.0F) {
             stack.damageItem(1, entityLiving, (livingEntity) -> livingEntity.sendBreakAnimation(EquipmentSlotType.MAINHAND));
         }
@@ -74,26 +80,18 @@ public class AgesToolItem extends TieredItem {
         return true;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public Multimap<String, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack stack) {
-        Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot);
-
-        if (slot == EquipmentSlotType.MAINHAND) {
-            multimap.removeAll(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
-            multimap.removeAll(SharedMonsterAttributes.ATTACK_SPEED.getName());
-
-            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER,
-                    "Tool modifier", this.attackDamage + getAdditionalAttackDamage(stack), AttributeModifier.Operation.ADDITION));
-            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER,
-                    "Tool modifier", this.attackSpeed + getAdditionalAttackSpeed(stack), AttributeModifier.Operation.ADDITION));
-        }
-
-        return multimap;
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack stack) {
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> attributeModifierBuilder = ImmutableMultimap.builder();
+        attributeModifierBuilder.put(Attributes.field_233823_f_, new AttributeModifier(ATTACK_DAMAGE_MODIFIER,
+                "Tool modifier", this.attackDamage + getAdditionalAttackDamage(stack), AttributeModifier.Operation.ADDITION));
+        attributeModifierBuilder.put(Attributes.field_233825_h_, new AttributeModifier(ATTACK_SPEED_MODIFIER,
+                "Tool modifier", this.attackSpeed + getAdditionalAttackSpeed(stack), AttributeModifier.Operation.ADDITION));
+        return attributeModifierBuilder.build();
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void addInformation(@Nonnull ItemStack stack, @Nullable World worldIn, @Nonnull List<ITextComponent> tooltip, @Nonnull ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
 
         if (stack.getItem() instanceof AgesToolItem) {
@@ -101,9 +99,9 @@ public class AgesToolItem extends TieredItem {
                 float attackDamage = getAdditionalAttackDamage(stack);
 
                 if (Math.abs(attackDamage) > 0.01) {
-                    tooltip.add(new StringTextComponent("Attack damage: ").applyTextStyle(TextFormatting.DARK_GREEN)
-                            .appendSibling(new StringTextComponent(String.format("%.2f", attackDamage))
-                                    .applyTextStyle(attackDamage >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+                    tooltip.add(new StringTextComponent("Attack damage: ").func_240701_a_(TextFormatting.DARK_GREEN)
+                            .func_230529_a_(new StringTextComponent(String.format("%.2f", attackDamage))
+                                    .func_240701_a_(attackDamage >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
                 }
             }
 
@@ -111,9 +109,9 @@ public class AgesToolItem extends TieredItem {
                 float attackSpeed = getAdditionalAttackSpeed(stack);
 
                 if (Math.abs(attackSpeed) > 0.01) {
-                    tooltip.add(new StringTextComponent("Attack speed: ").applyTextStyle(TextFormatting.DARK_GREEN)
-                            .appendSibling(new StringTextComponent(String.format("%.2f", attackSpeed))
-                                    .applyTextStyle(attackSpeed >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+                    tooltip.add(new StringTextComponent("Attack speed: ").func_240701_a_(TextFormatting.DARK_GREEN)
+                            .func_230529_a_(new StringTextComponent(String.format("%.2f", attackSpeed))
+                                    .func_240701_a_(attackSpeed >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
                 }
             }
 
@@ -121,9 +119,9 @@ public class AgesToolItem extends TieredItem {
                 float efficiency = getAdditionalEfficiency(stack);
 
                 if (Math.abs(efficiency) > 0.01) {
-                    tooltip.add(new StringTextComponent("Efficiency: ").applyTextStyle(TextFormatting.DARK_GREEN)
-                            .appendSibling(new StringTextComponent(String.format("%.2f", efficiency))
-                                    .applyTextStyle(efficiency >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+                    tooltip.add(new StringTextComponent("Efficiency: ").func_240701_a_(TextFormatting.DARK_GREEN)
+                            .func_230529_a_(new StringTextComponent(String.format("%.2f", efficiency))
+                                    .func_240701_a_(efficiency >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
                 }
             }
         }

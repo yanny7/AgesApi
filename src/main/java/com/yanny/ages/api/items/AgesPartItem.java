@@ -33,15 +33,15 @@ public class AgesPartItem extends Item {
             float attackSpeed = AgesToolItem.getAdditionalAttackSpeed(stack);
             float efficiency = AgesToolItem.getAdditionalEfficiency(stack);
 
-            tooltip.add(new StringTextComponent("Attack damage: ").applyTextStyle(TextFormatting.DARK_GREEN)
-                    .appendSibling(new StringTextComponent(String.format("%.2f", attackDamage))
-                            .applyTextStyle(attackDamage >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
-            tooltip.add(new StringTextComponent("Attack speed: ").applyTextStyle(TextFormatting.DARK_GREEN)
-                    .appendSibling(new StringTextComponent(String.format("%.2f", attackSpeed))
-                            .applyTextStyle(attackSpeed >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
-            tooltip.add(new StringTextComponent("Efficiency: ").applyTextStyle(TextFormatting.DARK_GREEN)
-                    .appendSibling(new StringTextComponent(String.format("%.2f", efficiency))
-                            .applyTextStyle(efficiency >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+            tooltip.add(new StringTextComponent("Attack damage: ").func_240701_a_(TextFormatting.DARK_GREEN)
+                    .func_230529_a_(new StringTextComponent(String.format("%.2f", attackDamage))
+                            .func_240701_a_(attackDamage >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+            tooltip.add(new StringTextComponent("Attack speed: ").func_240701_a_(TextFormatting.DARK_GREEN)
+                    .func_230529_a_(new StringTextComponent(String.format("%.2f", attackSpeed))
+                            .func_240701_a_(attackSpeed >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+            tooltip.add(new StringTextComponent("Efficiency: ").func_240701_a_(TextFormatting.DARK_GREEN)
+                    .func_230529_a_(new StringTextComponent(String.format("%.2f", efficiency))
+                            .func_240701_a_(efficiency >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
         }
     }
 }

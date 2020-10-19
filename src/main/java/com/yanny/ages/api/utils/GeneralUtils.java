@@ -4,10 +4,12 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.server.*;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.server.management.PlayerList;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.DimensionType;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.WorldInfo;
+import net.minecraft.world.storage.IWorldInfo;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.hooks.BasicEventHooks;
 
@@ -30,17 +32,17 @@ public class GeneralUtils {
         return (hours > 0 ? hours + "h:":"") + ((hours > 0 || minutes > 0) ? minutes + "m:" : "") + (seconds + "s");
     }
 
-    public static void changeDim(ServerPlayerEntity player, double x, double y, double z, DimensionType type) {
+    public static void changeDim(ServerPlayerEntity player, double x, double y, double z, RegistryKey<World> type) {
         if (!ForgeHooks.onTravelToDimension(player, type)) {
             return;
         }
 
-        DimensionType dimensiontype = player.dimension;
+        RegistryKey<World> dimensiontype = player.func_241141_L_();
         ServerWorld srcWorld = player.server.getWorld(dimensiontype);
-        player.dimension = type;
+        //player.dimension = type; TODO ??? 1.16 ???
         ServerWorld destWorld = player.server.getWorld(type);
-        WorldInfo worldinfo = player.world.getWorldInfo();
-        player.connection.sendPacket(new SRespawnPacket(type, 20523245, worldinfo.getGenerator(), player.interactionManager.getGameType()));
+        IWorldInfo worldinfo = player.world.getWorldInfo();
+        player.connection.sendPacket(new SRespawnPacket(srcWorld.func_230315_m_(), type, 20523245, player.interactionManager.getGameType(), player.interactionManager.getGameType(), false, false, false)); //TODO 1.16 ???
         player.connection.sendPacket(new SServerDifficultyPacket(worldinfo.getDifficulty(), worldinfo.isDifficultyLocked()));
         PlayerList playerlist = player.server.getPlayerList();
         playerlist.updatePermissionLevel(player);
@@ -51,7 +53,7 @@ public class GeneralUtils {
 
         player.setLocationAndAngles(x, y, z, f1, f);
         player.setWorld(destWorld);
-        destWorld.func_217447_b(player);
+        destWorld.addNewPlayer(player); //TODO 1.16 ????
         player.connection.setPlayerLocation(x, y, z, f1, f);
         player.interactionManager.setWorld(destWorld);
         player.connection.sendPacket(new SPlayerAbilitiesPacket(player.abilities));

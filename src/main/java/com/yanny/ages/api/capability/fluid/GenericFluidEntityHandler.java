@@ -122,13 +122,13 @@ public class GenericFluidEntityHandler extends WorldSavedData {
             });
 
             compound.put("entities", set);
-            compound.putInt("listType", set.getTagType());
+            compound.putInt("listType", set.getId());
             list.add(compound);
         });
 
         compoundNBT.putInt("version", setup.version);
         compoundNBT.put("capabilities", list);
-        compoundNBT.putInt("listType", list.getTagType());
+        compoundNBT.putInt("listType", list.getId());
         return compoundNBT;
     }
 

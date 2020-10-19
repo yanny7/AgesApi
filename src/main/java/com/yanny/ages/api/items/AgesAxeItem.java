@@ -18,14 +18,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
-import java.util.Map;
 import java.util.Set;
 
 import static net.minecraft.block.material.Material.*;
 
 public class AgesAxeItem extends AgesToolItem {
     private static final Set<Block> EFFECTIVE_ON;
-    private static final Map<Block, Block> BLOCK_STRIPPING_MAP;
+    private static final Set<Block> BLOCK_STRIPPING_MAP;
     private static final Set<Material> EFFECTIVE_MATERIALS;
 
     static {
@@ -59,9 +58,9 @@ public class AgesAxeItem extends AgesToolItem {
         World world = context.getWorld();
         BlockPos blockpos = context.getPos();
         BlockState blockstate = world.getBlockState(blockpos);
-        Block block = BLOCK_STRIPPING_MAP.get(blockstate.getBlock());
+        Block block = blockstate.getBlock();
 
-        if (block != null) {
+        if (BLOCK_STRIPPING_MAP.contains(block)) {
             PlayerEntity playerentity = context.getPlayer();
             world.playSound(playerentity, blockpos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
