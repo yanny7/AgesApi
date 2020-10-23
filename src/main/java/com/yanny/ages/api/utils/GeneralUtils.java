@@ -51,7 +51,7 @@ public class GeneralUtils {
 
         player.setLocationAndAngles(x, y, z, f1, f);
         player.setWorld(destWorld);
-        destWorld.func_217447_b(player);
+        destWorld.addNewPlayer(player);
         player.connection.setPlayerLocation(x, y, z, f1, f);
         player.interactionManager.setWorld(destWorld);
         player.connection.sendPacket(new SPlayerAbilitiesPacket(player.abilities));
