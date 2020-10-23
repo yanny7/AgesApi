@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -156,7 +155,7 @@ public class ItemStackUtils {
     }
 
     private static IBakedModel getModelWithOverrides(IBakedModel model, ItemStack stack) {
-        IBakedModel ibakedmodel = model.getOverrides().func_239290_a_(model, stack, null, null);
+        IBakedModel ibakedmodel = model.getOverrides().getOverrideModel(model, stack, null, null);
         return ibakedmodel == null ? Minecraft.getInstance().getItemRenderer().getItemModelMesher().getModelManager().getMissingModel() : ibakedmodel;
     }
 

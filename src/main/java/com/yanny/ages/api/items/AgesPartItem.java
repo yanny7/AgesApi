@@ -33,15 +33,15 @@ public class AgesPartItem extends Item {
             float attackSpeed = AgesToolItem.getAdditionalAttackSpeed(stack);
             float efficiency = AgesToolItem.getAdditionalEfficiency(stack);
 
-            tooltip.add(new StringTextComponent("Attack damage: ").func_240701_a_(TextFormatting.DARK_GREEN)
-                    .func_230529_a_(new StringTextComponent(String.format("%.2f", attackDamage))
-                            .func_240701_a_(attackDamage >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
-            tooltip.add(new StringTextComponent("Attack speed: ").func_240701_a_(TextFormatting.DARK_GREEN)
-                    .func_230529_a_(new StringTextComponent(String.format("%.2f", attackSpeed))
-                            .func_240701_a_(attackSpeed >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
-            tooltip.add(new StringTextComponent("Efficiency: ").func_240701_a_(TextFormatting.DARK_GREEN)
-                    .func_230529_a_(new StringTextComponent(String.format("%.2f", efficiency))
-                            .func_240701_a_(efficiency >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+            tooltip.add(new StringTextComponent("Attack damage: ").mergeStyle(TextFormatting.DARK_GREEN)
+                    .append(new StringTextComponent(String.format("%.2f", attackDamage))
+                            .mergeStyle(attackDamage >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+            tooltip.add(new StringTextComponent("Attack speed: ").mergeStyle(TextFormatting.DARK_GREEN)
+                    .append(new StringTextComponent(String.format("%.2f", attackSpeed))
+                            .mergeStyle(attackSpeed >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+            tooltip.add(new StringTextComponent("Efficiency: ").mergeStyle(TextFormatting.DARK_GREEN)
+                    .append(new StringTextComponent(String.format("%.2f", efficiency))
+                            .mergeStyle(efficiency >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
         }
     }
 }

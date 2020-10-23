@@ -42,7 +42,7 @@ public class GeneralUtils {
         //player.dimension = type; TODO ??? 1.16 ???
         ServerWorld destWorld = player.server.getWorld(type);
         IWorldInfo worldinfo = player.world.getWorldInfo();
-        player.connection.sendPacket(new SRespawnPacket(srcWorld.func_230315_m_(), type, 20523245, player.interactionManager.getGameType(), player.interactionManager.getGameType(), false, false, false)); //TODO 1.16 ???
+        player.connection.sendPacket(new SRespawnPacket(srcWorld.getDimensionType(), type, 20523245, player.interactionManager.getGameType(), player.interactionManager.getGameType(), false, false, false)); //TODO 1.16 ???
         player.connection.sendPacket(new SServerDifficultyPacket(worldinfo.getDifficulty(), worldinfo.isDifficultyLocked()));
         PlayerList playerlist = player.server.getPlayerList();
         playerlist.updatePermissionLevel(player);

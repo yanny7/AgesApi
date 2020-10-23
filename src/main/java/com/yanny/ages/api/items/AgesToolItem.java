@@ -83,9 +83,9 @@ public class AgesToolItem extends TieredItem {
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack stack) {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> attributeModifierBuilder = ImmutableMultimap.builder();
-        attributeModifierBuilder.put(Attributes.field_233823_f_, new AttributeModifier(ATTACK_DAMAGE_MODIFIER,
+        attributeModifierBuilder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER,
                 "Tool modifier", this.attackDamage + getAdditionalAttackDamage(stack), AttributeModifier.Operation.ADDITION));
-        attributeModifierBuilder.put(Attributes.field_233825_h_, new AttributeModifier(ATTACK_SPEED_MODIFIER,
+        attributeModifierBuilder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER,
                 "Tool modifier", this.attackSpeed + getAdditionalAttackSpeed(stack), AttributeModifier.Operation.ADDITION));
         return attributeModifierBuilder.build();
     }
@@ -99,9 +99,9 @@ public class AgesToolItem extends TieredItem {
                 float attackDamage = getAdditionalAttackDamage(stack);
 
                 if (Math.abs(attackDamage) > 0.01) {
-                    tooltip.add(new StringTextComponent("Attack damage: ").func_240701_a_(TextFormatting.DARK_GREEN)
-                            .func_230529_a_(new StringTextComponent(String.format("%.2f", attackDamage))
-                                    .func_240701_a_(attackDamage >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+                    tooltip.add(new StringTextComponent("Attack damage: ").mergeStyle(TextFormatting.DARK_GREEN)
+                            .append(new StringTextComponent(String.format("%.2f", attackDamage))
+                                    .mergeStyle(attackDamage >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
                 }
             }
 
@@ -109,9 +109,9 @@ public class AgesToolItem extends TieredItem {
                 float attackSpeed = getAdditionalAttackSpeed(stack);
 
                 if (Math.abs(attackSpeed) > 0.01) {
-                    tooltip.add(new StringTextComponent("Attack speed: ").func_240701_a_(TextFormatting.DARK_GREEN)
-                            .func_230529_a_(new StringTextComponent(String.format("%.2f", attackSpeed))
-                                    .func_240701_a_(attackSpeed >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+                    tooltip.add(new StringTextComponent("Attack speed: ").mergeStyle(TextFormatting.DARK_GREEN)
+                            .append(new StringTextComponent(String.format("%.2f", attackSpeed))
+                                    .mergeStyle(attackSpeed >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
                 }
             }
 
@@ -119,9 +119,9 @@ public class AgesToolItem extends TieredItem {
                 float efficiency = getAdditionalEfficiency(stack);
 
                 if (Math.abs(efficiency) > 0.01) {
-                    tooltip.add(new StringTextComponent("Efficiency: ").func_240701_a_(TextFormatting.DARK_GREEN)
-                            .func_230529_a_(new StringTextComponent(String.format("%.2f", efficiency))
-                                    .func_240701_a_(efficiency >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
+                    tooltip.add(new StringTextComponent("Efficiency: ").mergeStyle(TextFormatting.DARK_GREEN)
+                            .append(new StringTextComponent(String.format("%.2f", efficiency))
+                                    .mergeStyle(efficiency >= 0 ? TextFormatting.GREEN : TextFormatting.RED)));
                 }
             }
         }
