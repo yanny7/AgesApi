@@ -1,3 +1,6 @@
+v1.1.0
+- removed manual
+- removed common creative tab group
 v1.0.5
 - shears tag moved from ages_api to forge
 v1.0.4
