@@ -62,13 +62,13 @@ public class GenericFluidEntityHandler extends WorldSavedData {
 
     @Override
     public void read(@Nonnull CompoundNBT compoundNBT) {
-        ListNBT capabilityList = compoundNBT.getList("capabilities", compoundNBT.getInt("listType"));
+        ListNBT capabilityList = (ListNBT)compoundNBT.get("capabilities");
         int version = compoundNBT.getInt("version");
 
         ENTITIES.clear();
         CAPABILITIES.clear();
 
-        if (setup.version != version) {
+        if (setup.version != version || capabilityList == null) {
             return; // dismiss old setup
         }
 
@@ -79,9 +79,13 @@ public class GenericFluidEntityHandler extends WorldSavedData {
                 FluidTank tank = new FluidTank(capacity);
                 LazyOptional<FluidTank> capability = LazyOptional.of(() -> tank);
                 Set<BlockPos> set = new HashSet<>();
-                ListNBT entitiesList = compound.getList("entities", compound.getInt("listType"));
+                ListNBT entitiesList = (ListNBT)compound.get("entities");
 
                 tank.readFromNBT(compound);
+
+                if (entitiesList == null) {
+                    return;
+                }
 
                 entitiesList.forEach(t -> {
                     if (t instanceof CompoundNBT) {
@@ -122,13 +126,11 @@ public class GenericFluidEntityHandler extends WorldSavedData {
             });
 
             compound.put("entities", set);
-            compound.putInt("listType", set.getId());
             list.add(compound);
         });
 
         compoundNBT.putInt("version", setup.version);
         compoundNBT.put("capabilities", list);
-        compoundNBT.putInt("listType", list.getId());
         return compoundNBT;
     }
 
