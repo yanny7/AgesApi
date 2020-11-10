@@ -1,3 +1,8 @@
+v1.1.1
+- fixed saving/loading of aqueduct data
+- fixed item additional information and tile entities naming
+v1.1.0
+- removed ModGroup
 v1.0.5
 - shears tag moved from ages_api to forge
 v1.0.4
