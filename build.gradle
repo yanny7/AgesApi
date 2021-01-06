@@ -74,7 +74,7 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/')
+            args '--mod', 'ages_api', '--all', '--output', file('src/generated/resources/')
 
             mods {
                 ages_api {
@@ -83,6 +83,11 @@ minecraft {
             }
         }
     }
+}
+
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+    exclude '**/.cache/**'
 }
 
 task release(dependsOn: [jar, 'reobfJar'])
