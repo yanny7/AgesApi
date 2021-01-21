@@ -20,6 +20,6 @@ Ages API library for all Ages mods, currently there is Stone Age, but soon came 
 [[dependencies.ages_api]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15.2]"
+    versionRange="[1.15.2,)"
     ordering="NONE"
     side="BOTH"
