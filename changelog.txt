@@ -1,3 +1,6 @@
+v1.2.0
+- Added generated files to git
+- Moved to datagen, fixed tag typo
 v1.1.1
 - fixed saving/loading of aqueduct data
 - fixed item additional information and tile entities naming
